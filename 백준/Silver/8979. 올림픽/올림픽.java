@@ -27,10 +27,9 @@ public class Main {
 			public int compare(int[] o1, int[] o2) {
 				if(o1[1] == o2[1] && o1[2] == o2[2]) //금메달 은메달 수가 같으면
 					return o2[3] - o1[3];	// 동메달 비교
-				else if (o1[1] == o2[1])	//금메달 수가 같으면
+				if (o1[1] == o2[1])	//금메달 수가 같으면
 					return o2[2] - o1[2];	// 은메달 비교
-				else
-					return o2[1] - o1[1];	// 금메달 비교
+                return o2[1] - o1[1];	// 금메달 비교
 			}
 		});
 		
