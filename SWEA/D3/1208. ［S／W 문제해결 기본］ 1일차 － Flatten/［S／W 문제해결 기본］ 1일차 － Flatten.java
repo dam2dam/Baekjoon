@@ -1,66 +1,63 @@
-import java.io.FileInputStream;
-import java.util.Scanner;
- 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.StringTokenizer;
+
 public class Solution {
- 
-    public static void main(String[] args) throws Exception {
-//      System.setIn(new FileInputStream("input.txt"));
-        Scanner scanner = new Scanner(System.in);
-         
-        //테스트 케이스 입력
-        for (int tc = 1; tc <= 10; tc++) {
-            int dump = scanner.nextInt();
-            int[] boxes = new int[100];
-            for (int j = 0; j < 100; j++) 
-                 boxes[j] = scanner.nextInt();
-             
-            int max = 0;
-            int min = 100;
-            int maxIndex = 0;
-            int minIndex = 0;
-             
-            //평탄화
-            while (dump > 0) {
-                max = 0;
-                min = 100;
-                maxIndex = 0;
-                minIndex = 0;
-                 
-                //최댓값 최솟값과 그의 인덱스 구하기
-                for (int i = 0; i < boxes.length; i++) {
-                    if (boxes[i] >= max) {
-                        max = Math.max(max, boxes[i]);
-                        maxIndex = i;
-                    }
-                    if (boxes[i] <= min) {
-                        min = Math.min(min, boxes[i]);
-                        minIndex = i;
-                    }
-                }
-                if(boxes[maxIndex]-boxes[minIndex] <= 1) {
-                    break;
-                }
-                //덤프
-                boxes[maxIndex]--;
-                boxes[minIndex]++;
-                dump--;
-            }
-             
-            //평탄화 후 현재 최댓값 최솟값 인덱스 구하기
-            for (int i = 0; i < boxes.length; i++) {
-                if (boxes[i] >= max) {
-                    max = Math.max(max, boxes[i]);
-                    maxIndex = i;
-                }
-                if (boxes[i] <= min) {
-                    min = Math.min(min, boxes[i]);
-                    minIndex = i;
-                }
-            }
-            int answer = boxes[maxIndex] - boxes[minIndex];
-            System.out.printf("#%d %d\n", tc, answer);
-        }
-        scanner.close();
-    }
- 
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer stringtokenizer;
+
+		for (int tc = 1; tc <= 10; tc++) {
+			
+			int dump = Integer.parseInt(bufferedReader.readLine());
+			
+			int[][] boxes = new int[100][2];
+			
+			stringtokenizer = new StringTokenizer(bufferedReader.readLine());
+			for (int i = 0; i < 100; i++) {
+				boxes[i][0] = i;
+				boxes[i][1] = Integer.parseInt(stringtokenizer.nextToken());
+			}
+			Arrays.sort(boxes, new Comparator<int[]>() {
+				@Override
+				public int compare(int[] o1, int[] o2) {
+					if(o1[1] == o2[1])
+						return o1[0] < o2[0] ? -1 : o1[0] == o2[0] ? 0 : 1;
+					return o1[1] < o2[1] ? -1 : o1[1] == o2[1] ? 0 : 1;
+				}
+			});
+			
+			while (dump > 0 && boxes[99][1]-boxes[0][1] > 1) {
+				boxes[99][1]--;
+				boxes[0][1]++;
+				dump--;
+				
+				for(int i = 98; i > 0; i--) {
+					if(boxes[i][1] > boxes[99][1]) {
+						int temp = boxes[99][1];
+						boxes[99][1] = boxes[i][1];
+						boxes[i][1] = temp;
+						break;
+					}
+				}
+				for(int i = 1; i < 100; i++) {
+					if(boxes[0][1] > boxes[i][1]) {
+						int temp = boxes[0][1];
+						boxes[0][1] = boxes[i][1];
+						boxes[i][1] = temp;
+						break;
+					}
+				}
+				
+			}
+
+			System.out.printf("#%d %d\n", tc, boxes[99][1]-boxes[0][1]);
+		}
+		bufferedReader.close();
+	}
+	
 }
