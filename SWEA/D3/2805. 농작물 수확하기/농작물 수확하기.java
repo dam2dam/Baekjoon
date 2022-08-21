@@ -1,52 +1,61 @@
-import java.io.FileInputStream;
-import java.util.Scanner;
- 
+import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Solution {
-    public static void main(String[] args) throws Exception {
-//      System.setIn(new FileInputStream("input.txt")); 
-        Scanner scanner = new Scanner(System.in);
-         
-        // 테스트 케이스 수 입력
-        int T = scanner.nextInt();
-        for (int tc = 1; tc <= T; tc++) {
-            int n = scanner.nextInt();
-             
-            // 농장 입력
-            int[][] farm = new int[n][n];
-            for (int i = 0; i < n; i++) {
-                String s = scanner.next();
-                for (int j = 0; j < n; j++)
-                    farm[i][j] = s.charAt(j) - '0';
-            }
-             
-            //현재 좌표
-            int x = 0;
-            int y = 0;
-             
-            //대칭 범위를 위한 변수
-            int d = 0; 
-             
-            //농작물을 수확하여 얻을 수 있는 수익
-            int profit = 0;
-             
-            //마름모 윗부분 : 0 ~ n/2 번째 줄
-            for (int i = 0; i <= n/2; i++) {
-                for (int j = n/2-d; j <= n/2+d; j++)
-                    if (j>=0 && j<n)
-                        profit += farm[i][j];
-                d++;
-            }
-            d-=2; //대칭범위 조절
-             
-            //마름모 아랫부분 : n/2+1 ~ n 번째 줄
-            for (int i = n/2+1; i < n; i++) {
-                for (int j = n/2-d; j <= n/2+d; j++)
-                    if (j>=0 && j<n)
-                        profit += farm[i][j];
-                d--;
-            }
-            System.out.printf("#%d %d\n", tc, profit);
-        }
-        scanner.close();
-    }
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		
+		int T = Integer.parseInt(bufferedReader.readLine());
+		for (int tc = 1; tc <= T; tc++) {
+			
+			int N = Integer.parseInt(bufferedReader.readLine());
+			
+			int[][] numbers = new int[N][N];
+			for (int i = 0; i < N; i++) {
+				String input = bufferedReader.readLine();
+				for (int j = 0; j < N; j++)
+					numbers[i][j] = input.charAt(j) - '0';
+			}
+			
+			int sum = 0;
+			
+			int[] dx = {-1, 0, 1, 0};
+			int[] dy = {0, 1, 0, -1};
+			
+			Queue<Point> queue = new LinkedList<>();
+			boolean[][] visit = new boolean[N][N];
+			
+			queue.offer(new Point(N/2, N/2));
+			visit[N/2][N/2] = true;
+			sum += numbers[N/2][N/2];
+			
+			while(queue.isEmpty() == false) {
+				Point current = queue.poll();
+				
+				for (int d = 0; d < 4; d++) {
+					int nx = current.x + dx[d];
+					int ny = current.y + dy[d];
+					int distance = Math.abs(nx - N/2) + Math.abs(ny - N/2);
+					
+					if (nx < 0 || nx >= N || ny < 0 || ny >= N || visit[nx][ny] == true || distance > N/2)
+						continue;
+					if (distance <= N/2) {
+						queue.offer(new Point(nx, ny));
+						visit[nx][ny] = true;
+						sum += numbers[nx][ny];
+					}
+				}
+			}
+			
+			System.out.printf("#%d %d\n", tc, sum);
+		}
+		bufferedReader.close();
+	}
+	
 }
