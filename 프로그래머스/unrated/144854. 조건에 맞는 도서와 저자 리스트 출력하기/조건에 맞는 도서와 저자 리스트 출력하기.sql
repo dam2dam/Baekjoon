@@ -1,0 +1,16 @@
+-- 코드를 입력하세요
+SELECT B.BOOK_ID BOOK_ID, A.AUTHOR_NAME AUTHOR_NAME, DATE_FORMAT(B.PUBLISHED_DATE, '%Y-%m-%d') PUBLISHED_DATE
+FROM BOOK B JOIN AUTHOR A
+    ON B.AUTHOR_ID = A.AUTHOR_ID
+    AND B.CATEGORY = '경제'
+ORDER BY PUBLISHED_DATE ASC
+;
+
+
+# '경제' 카테고리에 속하는 도서들의 도서 ID(BOOK_ID), 저자명(AUTHOR_NAME), 출판일(PUBLISHED_DATE) 리스트
+
+
+# 출판일을 기준으로 오름차순
+
+# PUBLISHED_DATE의 데이트 포맷이 예시와 동일
+
