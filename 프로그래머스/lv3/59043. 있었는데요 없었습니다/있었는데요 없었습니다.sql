@@ -1,0 +1,23 @@
+-- 코드를 입력하세요
+SELECT DISTINCT AI.ANIMAL_ID ANIMAL_ID, AI.NAME NAME
+FROM ANIMAL_INS AI JOIN ANIMAL_OUTS AO
+    ON AI.ANIMAL_ID = AO.ANIMAL_ID
+    AND AI.DATETIME > AO.DATETIME
+ORDER BY AI.DATETIME ASC
+
+
+
+
+
+
+# 보호 시작일보다 입양일이 더 빠른 동물의 아이디와 이름을 조회
+
+# 보호 시작일이 빠른 순
+
+
+
+
+
+
+
+
