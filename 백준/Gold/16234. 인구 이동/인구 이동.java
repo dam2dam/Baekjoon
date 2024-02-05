@@ -122,6 +122,10 @@ public class Main {
 			}
 		}
 
+		// 연합 나라 없이 단독 국가라면 인구 수 갱신하지 않음
+		if (unions.size() <= 1) {
+			return;
+		}
 		for (Point current : unions) {
 			// 연합 나라의 인구 수 갱신
 			map[current.r][current.c].population = sum / count;
