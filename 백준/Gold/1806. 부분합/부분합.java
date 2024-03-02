@@ -26,8 +26,8 @@ public class Main {
 		int min = N + 1;
 
 		while (right < N) {
-			// 합이 목표값보다 작거나, 왼쪽 수가 오른쪽 수를 넘어가면
-			if (sum < S || left > right) {
+			// 합이 목표값보다 작으면
+			if (sum < S) {
 				// 오른쪽 수가 맨 끝에 있다면 더이상 부분합을 늘릴 수 없으니 끝내기
 				if (right == N - 1) {
 					break;
