@@ -23,7 +23,6 @@ class Solution {
 	 * @param to 도착할 기둥
 	 */
     static void hanoi(int number, int from, int mid, int to) {
-    
         if (number == 1) {
             answer[index][FROM] = from;
             answer[index++][TO] = to;
@@ -33,6 +32,5 @@ class Solution {
         answer[index][FROM] = from;
         answer[index++][TO] = to;
         hanoi(number - 1, mid, from, to);
-        
     }
 }
