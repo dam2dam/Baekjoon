@@ -2,6 +2,9 @@ class Solution {
     
     public int solution(int[] a) {
         int N = a.length;
+        if (N == 1) { 
+            return 1;
+        }
         
         int[] minOnLeft = new int[N];        
         int[] minOnRight = new int[N];
